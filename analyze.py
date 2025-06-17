@@ -2,7 +2,7 @@ import os
 violations = 0
 forb_words = ["print", "eval", "exec"]
 not_allowed = False
-with open("practice.txt") as files:
+with open(file_path) as files:
     data_line = files.readlines()
     for lines in data_line:
         if len(lines.strip()) > 80:
