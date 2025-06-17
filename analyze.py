@@ -1,36 +1,40 @@
 import os
-violations = 0
+
 forb_words = ["print", "eval", "exec"]
-not_allowed = False
+
 def detect_violations(file_path):
-  with open(file_path,'r',encoding='utf-8') as files:
-    data_line = files.readlines()
-    for lines in data_line:
-        if len(lines.strip()) > 80:
-            violations += 1
+    violations = 0
+    not_allowed = False
 
-        if lines.count('"') % 2 == 1 or lines.count("'") % 2 == 1:
-            violations += 1
+    with open(file_path, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
 
-        if not lines.lstrip().startswith("#"):
-            for keyword in forb_words:
-                if lines.find(keyword) != -1:
-                    violations += 1
-                    not_allowed = True
+        for line in lines:  # Iterate over each line
+            if len(line.strip()) > 80:  # Check for long lines
+                violations += 1
 
-if violations > 5 or not_allowed == True:
-    print("HIGH RISK")
-elif violations >= 1:
-    print("LOW RISK")
-else:
-    print("clean")
+            if line.count('"') % 2 == 1 or line.count("'") % 2 == 1:  # Unclosed string check
+                violations += 1
+
+            if not line.lstrip().startswith("#"):  # Ignore comments
+                for keyword in forb_words:
+                    if keyword in line:
+                        violations += 1
+                        not_allowed = True
+
+    # Risk classification per file
+    if violations > 5 or not_allowed:
+        print(f"{file_path}: HIGH RISK")
+    elif violations >= 1:
+        print(f"{file_path}: LOW RISK")
+    else:
+        print(f"{file_path}: CLEAN")
 
 def scan_codebase(directory):
-    for root, _, files in os.walk(directory):
+    for root, _, files in os.walk(directory):  # Walk through all directories
         for file in files:
             if file.endswith(".py"):
-                detect_violations(os.path.join(root, file))
+                detect_violations(os.path.join(root, file))  # Pass file path to detect_violations()
 
 if __name__ == "__main__":
     scan_codebase(".")
-
