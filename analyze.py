@@ -9,20 +9,20 @@ def detect_violations(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
-        for line in lines:  # Iterate over each line
-            if len(line.strip()) > 80:  # Check for long lines
+        for line in lines:  
+            if len(line.strip()) > 80:  
                 violations += 1
 
-            if line.count('"') % 2 == 1 or line.count("'") % 2 == 1:  # Unclosed string check
+            if line.count('"') % 2 == 1 or line.count("'") % 2 == 1:  
                 violations += 1
 
-            if not line.lstrip().startswith("#"):  # Ignore comments
+            if not line.lstrip().startswith("#"):  
                 for keyword in forb_words:
                     if keyword in line:
                         violations += 1
                         not_allowed = True
 
-    # Risk classification per file
+    
     if violations > 5 or not_allowed:
         print(f"{file_path}: HIGH RISK")
     elif violations >= 1:
@@ -31,10 +31,10 @@ def detect_violations(file_path):
         print(f"{file_path}: CLEAN")
 
 def scan_codebase(directory):
-    for root, _, files in os.walk(directory):  # Walk through all directories
+    for root, _, files in os.walk(directory):  
         for file in files:
             if file.endswith(".py"):
-                detect_violations(os.path.join(root, file))  # Pass file path to detect_violations()
+                detect_violations(os.path.join(root, file))  
 
 if __name__ == "__main__":
     scan_codebase(".")
