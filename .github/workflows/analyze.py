@@ -2,7 +2,7 @@ import os
 violations = 0
 forb_words = ["print", "eval", "exec"]
 not_allowed = False
-with open("practice.txt") as files:
+with open(file_path) as files:
     data_line = files.readlines()
     for lines in data_line:
         if len(lines.strip()) > 80:
@@ -23,3 +23,12 @@ elif violations >= 1:
     print("LOW RISK")
 else:
     print("clean")
+    
+def scan_codebase(directory):
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith(".py"):
+                detect_violations(os.path.join(root, file))
+
+if __name__ == "__main__":
+    scan_codebase(".")
