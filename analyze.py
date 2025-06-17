@@ -31,7 +31,7 @@ def detect_violations(file_path):
         print(f"{file_path}: CLEAN")
 
 def scan_codebase(directory):
-    for root, _, files in os.walk(directory):  
+    for root, _, files in os.walk(directory,"src"):  
         for file in files:
             if file.endswith(".py"):
                 detect_violations(os.path.join(root, file))  
