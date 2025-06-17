@@ -2,7 +2,7 @@ import os
 violations = 0
 forb_words = ["print", "eval", "exec"]
 not_allowed = False
-with open(file_path) as files:
+with open(file_path,'r',encoding='utf-8') as files:
     data_line = files.readlines()
     for lines in data_line:
         if len(lines.strip()) > 80:
