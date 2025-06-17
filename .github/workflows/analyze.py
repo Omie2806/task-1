@@ -1,0 +1,25 @@
+import os
+violations = 0
+forb_words = ["print", "eval", "exec"]
+not_allowed = False
+with open("practice.txt") as files:
+    data_line = files.readlines()
+    for lines in data_line:
+        if len(lines.strip()) > 80:
+            violations += 1
+
+        if lines.count('"') % 2 == 1 or lines.count("'") % 2 == 1:
+            violations += 1
+
+        if not lines.lstrip().startswith("#"):
+            for keyword in forb_words:
+                if lines.find(keyword) != -1:
+                    violations += 1
+                    not_allowed = True
+
+if violations > 5 or not_allowed == True:
+    print("HIGH RISK")
+elif violations >= 1:
+    print("LOW RISK")
+else:
+    print("clean")
