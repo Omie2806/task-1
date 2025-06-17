@@ -2,7 +2,7 @@ import os
 violations = 0
 forb_words = ["print", "eval", "exec"]
 not_allowed = False
-def open_file(file_path):
+def detect_violations(file_path):
   with open(file_path,'r',encoding='utf-8') as files:
     data_line = files.readlines()
     for lines in data_line:
