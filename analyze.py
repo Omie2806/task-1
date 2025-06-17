@@ -10,7 +10,7 @@ def detect_violations(file_path):
         lines = file.readlines()
 
         for line in lines:  
-            if len(line.strip()) > 80:  
+            if len(line.rstrip()) > 80:  
                 violations += 1
 
             if line.count('"') % 2 == 1 or line.count("'") % 2 == 1:  
